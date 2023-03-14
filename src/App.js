@@ -1,19 +1,21 @@
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
-import Navbar from "./components/NavBar";
-import AppRouter from "./components/AppRouter";
 import { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Context } from ".";
+import Navbar from "./components/NavBar";
+import AppRouter from "./components/AppRouter";
 import Loader from "./components/Loader";
+import Error from "./components/Error";
 
 function App() {
   const { auth } = useContext(Context);
-  const [user, loading] = useAuthState(auth);
+  const [user, loading, error] = useAuthState(auth);
 
   return (
     <BrowserRouter>
       <Navbar />
+      {error && <Error error={error} />}
       {loading ? <Loader /> : <AppRouter />}
     </BrowserRouter>
   );
