@@ -1,6 +1,6 @@
 import Login from "./components/Login";
 import Main from "./components/Main";
-import Groups from "./components/Groups";
+import Groups from "./pages/Groups";
 
 import { GROUPS_ROUTE, LOGIN_ROUTE, MAIN_ROUTE } from "./utils/consts";
 

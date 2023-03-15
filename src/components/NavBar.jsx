@@ -66,8 +66,7 @@ function Navbar() {
             </>
           ) : (
             <NavLink to={LOGIN_ROUTE}>
-              <Button variant="contained">Login</Button>
-              <Button variant="contained">Register</Button>
+              <Button variant="contained">Войти</Button>
             </NavLink>
           )}
         </Grid>
