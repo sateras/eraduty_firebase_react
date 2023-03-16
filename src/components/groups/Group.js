@@ -1,5 +1,4 @@
 import { Avatar, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
-import styles from "./Group.module.css";
 
 function Group({ primary, secondary }) {
   return (
