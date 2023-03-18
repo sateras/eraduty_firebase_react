@@ -1,0 +1,18 @@
+.name {
+    color: rgb(0, 0, 179);
+    font-weight: 700;
+}
+
+.message {
+    background-color: rgb(215, 215, 215);
+    padding: 2px;
+    border-radius: 0px 10px 10px 10px;
+    margin-top: 3px;
+}
+
+.myMessage {
+    background-color: rgb(222, 255, 203);
+    padding: 2px;
+    border-radius: 0px 10px 10px 10px;
+    margin-top: 3px;
+}

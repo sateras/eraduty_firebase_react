@@ -1,17 +1,15 @@
-import { Fab, List } from "@mui/material";
-import { collection, getFirestore } from "firebase/firestore";
+import { Fab } from "@mui/material";
+import { collection } from "firebase/firestore";
 import { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { Context } from "..";
 import GroupsLoader from "../components/state/GroupsLoader";
 import AddIcon from "@mui/icons-material/Add";
-import Group from "../components/group/Group";
 import GroupsList from "../components/GroupsList";
 
 function Groups() {
-  const { auth, firebaseApp } = useContext(Context);
-  const firestore = getFirestore(firebaseApp);
+  const { auth, firestore } = useContext(Context);
   const [user] = useAuthState(auth);
 
   const [value, loading, error] = useCollection(

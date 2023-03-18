@@ -3,24 +3,25 @@ import {
   getFirestore,
   addDoc,
   serverTimestamp,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import { useContext, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollection } from "react-firebase-hooks/firestore";
 import { Context } from "..";
 import ChatTextFieldWithButton from "../components/chatTextFieldWithButton/ChatTextFieldWithButton";
 import ChatWindow from "../components/chatWindow/ChatWindow";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 function GlobalChat() {
-  const { auth, firebaseApp } = useContext(Context);
-  const firestore = getFirestore(firebaseApp);
+  const { auth, firestore } = useContext(Context);
   const [user] = useAuthState(auth);
 
   const [text, setText] = useState("");
   const [loadingText, setLoadingText] = useState(false);
 
-  const [value, loading, error] = useCollection(
-    collection(firestore, "groups"),
+  const [messages, loading, error] = useCollection(
+    query(collection(firestore, "globalChatMessages"), orderBy("createdAt")),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
@@ -45,10 +46,10 @@ function GlobalChat() {
   };
 
   return (
-    <div style={{ overflowY: "auto", height: "calc(100vh - 70px)" }}>
-      <ChatWindow />
+    <div style={{ height: "calc(100vh - 70px)" }}>
+      {messages && <ChatWindow messages={messages} />}
       <ChatTextFieldWithButton
-        ifLoading={loadingText}
+        isLoading={loadingText}
         onChangeText={setText}
         textFieldValue={text}
         onClickButton={sendMessage}

@@ -6,7 +6,7 @@ function ChatTextFieldWithButton({
   onChangeText,
   textFieldValue,
   onClickButton,
-  ifLoading,
+  isLoading,
 }) {
   return (
     <div className={styles.container}>
@@ -14,7 +14,7 @@ function ChatTextFieldWithButton({
         value={textFieldValue}
         onChange={(e) => onChangeText(e.target.value)}
       ></input>
-      {ifLoading ? (
+      {isLoading ? (
         <Button
           disabled
           onClick={onClickButton}
