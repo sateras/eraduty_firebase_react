@@ -2,8 +2,10 @@ import Login from "./pages/Login";
 import Main from "./pages/Main";
 import GlobalChat from "./pages/GlobalChat";
 import Groups from "./pages/Groups";
+import CreateGroup from "./pages/CreateGroup";
 
 import {
+  CREATEGROUP_ROUTE,
   GLOBALCHAT_ROUTE,
   GROUPS_ROUTE,
   LOGIN_ROUTE,
@@ -29,5 +31,9 @@ export const privateRoutes = [
   {
     path: GLOBALCHAT_ROUTE,
     component: <GlobalChat />,
+  },
+  {
+    path: CREATEGROUP_ROUTE,
+    component: <CreateGroup />,
   },
 ];

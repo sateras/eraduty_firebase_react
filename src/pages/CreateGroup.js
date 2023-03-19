@@ -1,14 +1,10 @@
-import { Fab } from "@mui/material";
 import { collection } from "firebase/firestore";
 import { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { AuthContext } from "..";
-import GroupsLoader from "../components/state/GroupsLoader";
-import AddIcon from "@mui/icons-material/Add";
-import GroupsList from "../components/GroupsList";
 
-function Groups() {
+function CreateGroup() {
   const { auth, firestore } = useContext(AuthContext);
   const [user] = useAuthState(auth);
 
@@ -21,19 +17,9 @@ function Groups() {
 
   return (
     <div style={{ overflowY: "auto", height: "calc(100vh - 70px)" }}>
-      {loading && <GroupsLoader />}
-      {error && <div> {error} </div>}
-      {value && <GroupsList value={value} />}
-
-      <Fab
-        style={{ position: "absolute", bottom: "2vh", right: "2vw" }}
-        color="primary"
-        aria-label="add"
-      >
-        <AddIcon />
-      </Fab>
+      create group
     </div>
   );
 }
 
-export default Groups;
+export default CreateGroup;
