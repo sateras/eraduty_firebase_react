@@ -2,7 +2,7 @@ import { Button, Container, Grid } from "@mui/material";
 import { useContext } from "react";
 import { Context } from "..";
 
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 
 const provider = new GoogleAuthProvider();
 
@@ -10,7 +10,11 @@ function Login() {
   const { auth } = useContext(Context);
 
   const login = async () => {
-    const { user } = await signInWithPopup(auth, provider);
+    try {
+      const { user } = await signInWithRedirect(auth, provider);
+    } catch (error) {
+      alert(JSON.stringify(error));
+    }
   };
 
   return (

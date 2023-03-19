@@ -46,8 +46,8 @@ function GlobalChat() {
   };
 
   return (
-    <div style={{ height: "calc(100vh - 70px)" }}>
-      {messages && <ChatWindow messages={messages} />}
+    <div style={{ height: "calc(100vh - 60px)" }}>
+      {messages && <ChatWindow messages={messages} user={user} />}
       <ChatTextFieldWithButton
         isLoading={loadingText}
         onChangeText={setText}

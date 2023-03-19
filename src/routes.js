@@ -1,5 +1,5 @@
-import Login from "./components/Login";
-import Main from "./components/Main";
+import Login from "./pages/Login";
+import Main from "./pages/Main";
 import GlobalChat from "./pages/GlobalChat";
 import Groups from "./pages/Groups";
 

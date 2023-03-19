@@ -65,7 +65,7 @@ function Navbar() {
               </Menu>
             </>
           ) : (
-            <NavLink to={LOGIN_ROUTE}>
+            <NavLink style={{ textDecoration: "none" }} to={LOGIN_ROUTE}>
               <Button variant="contained">Войти</Button>
             </NavLink>
           )}

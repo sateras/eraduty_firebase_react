@@ -8,11 +8,16 @@
     padding: 2px;
     border-radius: 0px 10px 10px 10px;
     margin-top: 3px;
+    max-width: 70vw;
+    word-break: break-all;
 }
 
 .myMessage {
     background-color: rgb(222, 255, 203);
-    padding: 2px;
-    border-radius: 0px 10px 10px 10px;
+    padding: 5px;
+    border-radius: 10px 0px 10px 10px;
     margin-top: 3px;
+    margin-right: 5px;
+    max-width: 70vw;
+    word-break: break-all;
 }
