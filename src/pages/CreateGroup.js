@@ -4,6 +4,7 @@ import { AuthContext } from "..";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Avatar,
+  CircularProgress,
   IconButton,
   InputBase,
   List,
@@ -17,30 +18,28 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 
 function CreateGroup() {
   const { auth, firestore } = useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
+
   const [searchId, setSearchId] = useState("");
-  const [user, setUser] = useState({});
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [user, setUser] = useState(undefined);
 
   const searchById = async () => {
+    setLoading(true);
     try {
       const usersRef = collection(firestore, "users");
       const q = query(usersRef, where("uid", "==", searchId));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
         setUser(doc.data());
-        console.log(doc.data());
+        console.log(doc);
       });
-      // setLoading(true);
-      // const data = await getDocs(collection(firestore, "users"));
-      // data.docs.forEach((e) => {
-      //   if (e.data().uid === searchId) {
-      //   }
-      // });
-      // setLoading(false);
     } catch (error) {
+      setError(true);
       alert("Error: " + error);
     }
+    setLoading(false);
   };
 
   return (
@@ -72,11 +71,19 @@ function CreateGroup() {
         </div>
       </div>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        <Group
-          img={user.photoUrl}
-          primary={user.displayName}
-          secondary={user.uid}
-        />
+        {loading && (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress />
+          </div>
+        )}
+        {error && <div>Error</div>}
+        {user && (
+          <Group
+            img={user.photoUrl}
+            primary={user.displayName}
+            secondary={user.uid}
+          />
+        )}
       </List>
     </div>
   );
