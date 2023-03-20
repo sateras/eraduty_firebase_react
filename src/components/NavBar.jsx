@@ -13,7 +13,7 @@ import { useContext, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "..";
-import { LOGIN_ROUTE } from "../utils/consts";
+import { LOGIN_ROUTE, SETTINGS_ROUTE } from "../utils/consts";
 import { signOut } from "firebase/auth";
 
 function Navbar() {
@@ -59,6 +59,14 @@ function Navbar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
+                <NavLink
+                  style={{ textDecoration: "none", color: "black" }}
+                  to={SETTINGS_ROUTE}
+                >
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">Настройки</Typography>
+                  </MenuItem>
+                </NavLink>
                 <MenuItem onClick={goOut}>
                   <Typography textAlign="center">Выйти</Typography>
                 </MenuItem>

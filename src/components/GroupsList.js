@@ -1,4 +1,4 @@
-import { List } from "@mui/material";
+import { Divider, List } from "@mui/material";
 import { Link } from "react-router-dom";
 import { GLOBALCHAT_ROUTE } from "../utils/consts";
 import Group from "./group/Group";
@@ -15,6 +15,7 @@ function GroupsList({ value }) {
           primary={"Global Chat"}
         />
       </Link>
+      <Divider variant="inset" component="li" />
       {value.docs.map((e) => (
         <Group
           key={e.id}

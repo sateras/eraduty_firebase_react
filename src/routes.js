@@ -3,6 +3,7 @@ import Main from "./pages/Main";
 import GlobalChat from "./pages/GlobalChat";
 import Groups from "./pages/Groups";
 import CreateGroup from "./pages/CreateGroup";
+import UserSettings from "./pages/UserSettings";
 
 import {
   CREATEGROUP_ROUTE,
@@ -10,6 +11,7 @@ import {
   GROUPS_ROUTE,
   LOGIN_ROUTE,
   MAIN_ROUTE,
+  SETTINGS_ROUTE,
 } from "./utils/consts";
 
 export const publicRoutes = [
@@ -35,5 +37,9 @@ export const privateRoutes = [
   {
     path: CREATEGROUP_ROUTE,
     component: <CreateGroup />,
+  },
+  {
+    path: SETTINGS_ROUTE,
+    component: <UserSettings />,
   },
 ];

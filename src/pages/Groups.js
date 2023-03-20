@@ -7,6 +7,8 @@ import { AuthContext } from "..";
 import GroupsLoader from "../components/state/GroupsLoader";
 import AddIcon from "@mui/icons-material/Add";
 import GroupsList from "../components/GroupsList";
+import { NavLink } from "react-router-dom";
+import { CREATEGROUP_ROUTE } from "../utils/consts";
 
 function Groups() {
   const { auth, firestore } = useContext(AuthContext);
@@ -25,13 +27,15 @@ function Groups() {
       {error && <div> {error} </div>}
       {value && <GroupsList value={value} />}
 
-      <Fab
-        style={{ position: "absolute", bottom: "2vh", right: "2vw" }}
-        color="primary"
-        aria-label="add"
-      >
-        <AddIcon />
-      </Fab>
+      <NavLink style={{ textDecoration: "none" }} to={CREATEGROUP_ROUTE}>
+        <Fab
+          style={{ position: "absolute", bottom: "2vh", right: "2vw" }}
+          color="primary"
+          aria-label="add"
+        >
+          <AddIcon />
+        </Fab>
+      </NavLink>
     </div>
   );
 }

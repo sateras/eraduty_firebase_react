@@ -47,6 +47,8 @@ function GlobalChat() {
 
   return (
     <div style={{ height: "calc(100vh - 60px)" }}>
+      {loading && <div> LOADING...</div>}
+      {error && <div> ERROR: {error} </div>}
       {messages && <ChatWindow messages={messages} user={user} />}
       <ChatTextFieldWithButton
         isLoading={loadingText}
