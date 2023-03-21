@@ -1,10 +1,13 @@
 import { useContext, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { AuthContext } from "..";
 import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {
+  Alert,
   Avatar,
   CircularProgress,
+  Fab,
   IconButton,
   InputBase,
   List,
@@ -15,31 +18,47 @@ import {
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import Group from "../components/group/Group";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 function CreateGroup() {
   const { auth, firestore } = useContext(AuthContext);
+  const [user] = useAuthState(auth);
 
   const [searchId, setSearchId] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [user, setUser] = useState(undefined);
+  const [findUser, setFindUser] = useState(undefined);
+
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const searchById = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       const usersRef = collection(firestore, "users");
       const q = query(usersRef, where("uid", "==", searchId));
       const querySnapshot = await getDocs(q);
+      console.log(querySnapshot);
       querySnapshot.forEach((doc) => {
-        setUser(doc.data());
-        console.log(doc);
+        setFindUser(doc.data());
       });
     } catch (error) {
       setError(true);
       alert("Error: " + error);
     }
     setLoading(false);
+  };
+
+  const unselectUser = (user) => {
+    setSelectedUsers(selectedUsers.filter((p) => p !== user));
+  };
+  const selectUser = () => {
+    if (selectedUsers.includes(findUser)) {
+      // tut budet ALLERT
+    } else {
+      setSelectedUsers([...selectedUsers, findUser]);
+    }
+    console.log(selectedUsers.includes(findUser));
   };
 
   return (
@@ -50,7 +69,6 @@ function CreateGroup() {
         </Avatar>
         <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Название группы..." />
       </div>
-
       <div style={{ padding: 10, backgroundColor: "#e0e0e0" }}>
         Добавить участника
         <div style={{ display: "flex" }}>
@@ -77,14 +95,40 @@ function CreateGroup() {
           </div>
         )}
         {error && <div>Error</div>}
-        {user && (
+        {findUser && (
           <Group
-            img={user.photoUrl}
-            primary={user.displayName}
-            secondary={user.uid}
+            onClick={selectUser}
+            img={findUser.photoUrl}
+            primary={findUser.displayName}
+            secondary={findUser.uid}
           />
         )}
+        {selectedUsers.map((e) => (
+          <ListItem
+            onClick={() => unselectUser(e)}
+            style={{ backgroundColor: "#aefa9b" }}
+            key={e.uid}
+          >
+            <ListItemAvatar>
+              <Avatar src={e.photoUrl} alt="Profile Picture" />
+            </ListItemAvatar>
+            <ListItemText primary={e.displayName} secondary={e.uid} />
+            <IconButton edge="end" aria-label="delete">
+              <CloseIcon />
+            </IconButton>
+          </ListItem>
+        ))}
       </List>
+      {selectedUsers.length > 0 && (
+        <Fab
+          style={{ position: "absolute", bottom: "2vh", right: "2vw" }}
+          color="primary"
+          aria-label="add"
+        >
+          <ArrowForwardIcon />
+        </Fab>
+      )}
+      <Alert severity="info">This is an info alert — check it out!</Alert>;
     </div>
   );
 }
