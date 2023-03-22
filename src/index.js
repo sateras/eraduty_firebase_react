@@ -5,18 +5,21 @@ import { firebaseConfig } from "./utils/firebaseConfig";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { AuthProvider } from "./contexts/auth";
 
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const firestore = getFirestore(firebaseApp);
-export const AuthContext = createContext({});
+// const firebaseApp = initializeApp(firebaseConfig);
+// const auth = getAuth(firebaseApp);
+// const firestore = getFirestore(firebaseApp);
+// export const AuthContext = createContext({});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <AuthContext.Provider value={{ firebaseApp, auth, firestore }}>
+    {/* <AuthContext.Provider value={{ firebaseApp, auth, firestore }}> */}
+    <AuthProvider>
       <App />
-    </AuthContext.Provider>
+    </AuthProvider>
+    {/* </AuthContext.Provider> */}
   </React.StrictMode>
 );
 

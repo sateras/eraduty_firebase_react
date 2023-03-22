@@ -2,12 +2,12 @@ import { collection } from "firebase/firestore";
 import { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { AuthContext } from "..";
 import GroupsLoader from "../components/state/GroupsLoader";
 import AddIcon from "@mui/icons-material/Add";
 import GroupsList from "../components/GroupsList";
 import { CREATEGROUP_ROUTE } from "../utils/consts";
 import FloatingActionButton from "../components/FloatingActionButtonNav";
+import { AuthContext } from "../contexts/auth";
 
 function Groups() {
   const { auth, firestore } = useContext(AuthContext);

@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { AuthContext } from "../..";
+import { AuthContext } from "../../contexts/auth";
 
 function AllowToSearchMe() {
   const { auth, firestore } = useContext(AuthContext);

@@ -12,9 +12,9 @@ import {
 import { useContext, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { NavLink } from "react-router-dom";
-import { AuthContext } from "..";
 import { LOGIN_ROUTE, SETTINGS_ROUTE } from "../utils/consts";
 import { signOut } from "firebase/auth";
+import { AuthContext } from "../contexts/auth";
 
 function Navbar() {
   const { auth } = useContext(AuthContext);

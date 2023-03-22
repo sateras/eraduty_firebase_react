@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { AuthContext } from "..";
+
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -18,6 +18,7 @@ import Group from "../components/group/Group";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import FloatingActionButton from "../components/FloatingActionButtonNav";
+import { AuthContext } from "../contexts/auth";
 
 function CreateGroup() {
   const { auth, firestore } = useContext(AuthContext);

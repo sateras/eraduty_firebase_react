@@ -1,8 +1,8 @@
 import { Button, Container, Grid } from "@mui/material";
 import { useContext } from "react";
-import { AuthContext } from "..";
 
 import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
+import { AuthContext } from "../contexts/auth";
 
 const provider = new GoogleAuthProvider();
 

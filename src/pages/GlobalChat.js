@@ -1,6 +1,5 @@
 import {
   collection,
-  getFirestore,
   addDoc,
   serverTimestamp,
   query,
@@ -8,10 +7,10 @@ import {
 } from "firebase/firestore";
 import { useContext, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { AuthContext } from "..";
 import ChatTextFieldWithButton from "../components/chatTextFieldWithButton/ChatTextFieldWithButton";
 import ChatWindow from "../components/chatWindow/ChatWindow";
 import { useCollection } from "react-firebase-hooks/firestore";
+import { AuthContext } from "../contexts/auth";
 
 function GlobalChat() {
   const { auth, firestore } = useContext(AuthContext);
