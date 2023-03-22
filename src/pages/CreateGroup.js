@@ -4,10 +4,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {
-  Alert,
   Avatar,
   CircularProgress,
-  Fab,
   IconButton,
   InputBase,
   List,
@@ -17,14 +15,16 @@ import {
 } from "@mui/material";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import Group from "../components/group/Group";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
+import FloatingActionButton from "../components/FloatingActionButtonNav";
 
 function CreateGroup() {
   const { auth, firestore } = useContext(AuthContext);
   const [user] = useAuthState(auth);
 
   const [searchId, setSearchId] = useState("");
+  const [groupName, setGroupName] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -33,18 +33,21 @@ function CreateGroup() {
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   const searchById = async () => {
-    try {
-      setLoading(true);
-      const usersRef = collection(firestore, "users");
-      const q = query(usersRef, where("uid", "==", searchId));
-      const querySnapshot = await getDocs(q);
-      console.log(querySnapshot);
-      querySnapshot.forEach((doc) => {
-        setFindUser(doc.data());
-      });
-    } catch (error) {
-      setError(true);
-      alert("Error: " + error);
+    if (user.uid != searchId) {
+      try {
+        setLoading(true);
+        const usersRef = collection(firestore, "users");
+        const q = query(usersRef, where("uid", "==", searchId));
+        const querySnapshot = await getDocs(q);
+        console.log(user.uid);
+
+        querySnapshot.forEach((doc) => {
+          setFindUser(doc.data());
+        });
+      } catch (error) {
+        setError(true);
+        alert("Error: " + error);
+      }
     }
     setLoading(false);
   };
@@ -61,13 +64,26 @@ function CreateGroup() {
     console.log(selectedUsers.includes(findUser));
   };
 
+  const createGroup = async () => {
+    const docRef = await addDoc(collection(firestore, "groups"), {
+      users: [{ usersID: [] }, { usersName: [] }],
+      name: groupName,
+      photoUrl: user.photoUrl,
+    });
+  };
+
   return (
     <div style={{ overflowY: "auto", height: "calc(100vh - 70px)" }}>
       <div style={{ display: "flex", padding: 10 }}>
         <Avatar alt="Group picture">
           <AddAPhotoIcon />
         </Avatar>
-        <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Название группы..." />
+        <InputBase
+          value={groupName}
+          onChange={(e) => setGroupName(e.target.value)}
+          sx={{ ml: 1, flex: 1 }}
+          placeholder="Название группы..."
+        />
       </div>
       <div style={{ padding: 10, backgroundColor: "#e0e0e0" }}>
         Добавить участника
@@ -89,20 +105,19 @@ function CreateGroup() {
         </div>
       </div>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        {loading && (
+        {error && <div>Error</div>}
+        {loading ? (
           <div style={{ display: "flex", justifyContent: "center" }}>
             <CircularProgress />
           </div>
-        )}
-        {error && <div>Error</div>}
-        {findUser && (
+        ) : findUser ? (
           <Group
             onClick={selectUser}
             img={findUser.photoUrl}
             primary={findUser.displayName}
             secondary={findUser.uid}
           />
-        )}
+        ) : null}
         {selectedUsers.map((e) => (
           <ListItem
             onClick={() => unselectUser(e)}
@@ -120,15 +135,10 @@ function CreateGroup() {
         ))}
       </List>
       {selectedUsers.length > 0 && (
-        <Fab
-          style={{ position: "absolute", bottom: "2vh", right: "2vw" }}
-          color="primary"
-          aria-label="add"
-        >
+        <FloatingActionButton onClick={createGroup}>
           <ArrowForwardIcon />
-        </Fab>
+        </FloatingActionButton>
       )}
-      <Alert severity="info">This is an info alert — check it out!</Alert>;
     </div>
   );
 }
