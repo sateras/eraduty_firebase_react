@@ -1,4 +1,4 @@
-import { collection } from "firebase/firestore";
+import { collection, query, where } from "firebase/firestore";
 import { useContext } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
@@ -13,12 +13,14 @@ function Groups() {
   const { auth, firestore } = useContext(AuthContext);
   const [user] = useAuthState(auth);
 
-  const [value, loading, error] = useCollection(
+  const q = query(
     collection(firestore, "groups"),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    }
+    where("members", "array-contains", user.uid)
   );
+
+  const [value, loading, error] = useCollection(q, {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
 
   return (
     <div style={{ overflowY: "auto", height: "calc(100vh - 70px)" }}>

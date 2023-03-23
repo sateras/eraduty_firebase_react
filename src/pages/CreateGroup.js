@@ -26,6 +26,7 @@ function CreateGroup() {
 
   const [searchId, setSearchId] = useState("");
   const [groupName, setGroupName] = useState("");
+  const [file, setFile] = useState();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -66,19 +67,41 @@ function CreateGroup() {
   };
 
   const createGroup = async () => {
-    const docRef = await addDoc(collection(firestore, "groups"), {
-      users: [{ usersID: [] }, { usersName: [] }],
-      name: groupName,
-      photoUrl: user.photoUrl,
-    });
+    try {
+      const usersID = [user.uid].concat(selectedUsers.map((user) => user.uid));
+      const usersName = [user.displayName].concat(
+        selectedUsers.map((user) => user.displayName)
+      );
+
+      const docRef = await addDoc(collection(firestore, "groups"), {
+        members: usersID,
+        users: { usersName: usersName },
+        name: groupName,
+        photoUrl: user.photoURL,
+      });
+      setSelectedUsers([]);
+      setGroupName("");
+
+      // TODO: Сделать переадресацию в созданную группу
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
     <div style={{ overflowY: "auto", height: "calc(100vh - 70px)" }}>
       <div style={{ display: "flex", padding: 10 }}>
-        <Avatar alt="Group picture">
-          <AddAPhotoIcon />
-        </Avatar>
+        <input
+          onChange={(e) => setFile(e.target.files)}
+          style={{ display: "none" }}
+          type={"file"}
+          id="file"
+        />
+        <label htmlFor="file">
+          <Avatar type alt="Group picture">
+            <AddAPhotoIcon />
+          </Avatar>
+        </label>
         <InputBase
           value={groupName}
           onChange={(e) => setGroupName(e.target.value)}
