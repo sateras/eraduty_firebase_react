@@ -21,6 +21,7 @@ function GroupsList({ value }) {
           key={e.id}
           primary={e.data().name}
           secondary={e.data().users.usersName.join(", ")}
+          onClick={() => console.log(e.id)}
         />
       ))}
     </List>

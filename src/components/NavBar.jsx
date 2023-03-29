@@ -11,12 +11,14 @@ import {
 } from "@mui/material";
 import { useContext, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { NavLink } from "react-router-dom";
-import { LOGIN_ROUTE, SETTINGS_ROUTE } from "../utils/consts";
+import { NavLink, useMatch } from "react-router-dom";
+import { GLOBALCHAT_ROUTE, LOGIN_ROUTE, SETTINGS_ROUTE } from "../utils/consts";
 import { signOut } from "firebase/auth";
 import { AuthContext } from "../contexts/auth";
 
 function Navbar() {
+  const isGlobalChat = useMatch(GLOBALCHAT_ROUTE);
+
   const { auth } = useContext(AuthContext);
   const [user] = useAuthState(auth);
 
@@ -37,6 +39,16 @@ function Navbar() {
   return (
     <AppBar position="static">
       <Toolbar>
+        {isGlobalChat && (
+          <Typography
+            style={{ whiteSpace: "nowrap" }}
+            align="inherit"
+            variant="h6"
+            component="div"
+          >
+            Global chat
+          </Typography>
+        )}
         <Grid container justifyContent={"flex-end"}>
           {user ? (
             <>
